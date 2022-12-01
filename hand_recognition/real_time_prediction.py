@@ -7,7 +7,7 @@ import os
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
-model = models.load_model('asl_model2.h5')
+model = models.load_model('D:\projects\FY_project\hand_recognition\models\\asl_model2.h5')
 classes = {0:'yes',1:'no',2:'please',3:'good',4:'hello',5:'you'}
 
 cap = cv2.VideoCapture(0)
@@ -61,10 +61,9 @@ while True:
     pTime = cTime
 
     cv2.putText(img,str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
-    cv2.putText(img,f'{classes[prediction]} {probabilities[0][prediction]*100} confidence', (cx-50,cy-50), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
+    cv2.putText(img,f'{classes[prediction]} {round(probabilities[0][prediction]*100,2)}% confidence', (cx-50,cy-50), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
 
     cv2.imshow("Image", img)
     k = cv2.waitKey(10)
     if k==27:
-        cv2.imwrite("Image.jpg",img)
         break
