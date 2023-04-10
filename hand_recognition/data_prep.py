@@ -1,6 +1,10 @@
 import cv2
 import mediapipe as mp
 import time
+import os
+
+# os.chmod('D:\projects\FY_project\hand_recognition\data\how_you', 0o777)
+
 
 
 cap = cv2.VideoCapture(0)
@@ -17,7 +21,7 @@ mpDraw = mp.solutions.drawing_utils
 pTime = 0
 cTime = 0
 
-image_count = 2
+image_count = 7001
 cx=cy=cx_max=cy_max=0
 
 while True:
@@ -36,9 +40,9 @@ while True:
                 cx_max = max(cx_max,int(lm.x *w))
                 cy_max = max(cy_max,int(lm.y *h))
         cv2.rectangle(img,(cx-50,cy-50),(cx_max+50,cy_max+50),(0,255,0), 1)
-        if image_count>-2:
+        if image_count>3500:
             print(f'({cx},{cy}),({cx_max},{cy_max})')
-            cv2.imwrite('data/trial/trial_'+str(image_count)+'.jpg',img_copy[cy-50:cy_max+50,cx-50:cx_max+50])
+            cv2.imwrite('D:\projects\FY_project\hand_recognition\data\\my_name\\my_name_'+str(image_count)+'.jpg',img_copy[cy-50:cy_max+50,cx-50:cx_max+50])
             image_count-=1
 
     cTime = time.time()

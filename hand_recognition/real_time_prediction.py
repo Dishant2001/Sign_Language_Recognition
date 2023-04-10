@@ -4,11 +4,22 @@ import time
 from tensorflow.keras import models
 import numpy as np
 import os
+import threading
+import pyttsx3 
+# engine = pyttsx3.init()
+
+# def speak(text):
+#     engine.say(text)
+#     engine.runAndWait()
+
+# Create a new thread to speak the text
+
+
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
-model = models.load_model('D:\projects\FY_project\hand_recognition\models\\asl_model2.h5')
-classes = {0:'yes',1:'no',2:'please',3:'good',4:'hello',5:'you'}
+model = models.load_model('D:\projects\FY_project\hand_recognition\models\\asl_model3.h5',compile=False)
+classes = {0:'yes',1:'no',2:'please',3:'good',4:'hello',5:'you',6:'nice to meet you',7:'name',8:'good morning',9:'how are you ?'}#{0:'yes',1:'no',2:'please',3:'good',4:'hello',5:'you'}
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 1280)
@@ -27,6 +38,8 @@ cTime = 0
 image_count = 1000
 cx=cy=cx_max=cy_max=0
 prediction = -1
+
+previous = ''
 
 while True:
     success, img = cap.read()
@@ -59,6 +72,13 @@ while True:
     cTime = time.time()
     fps = 1/(cTime-pTime)
     pTime = cTime
+
+    # engine.say(classes[prediction])
+    # engine.runAndWait()
+    # if previous!=classes[prediction]:
+    #     previous = classes[prediction]
+    #     t = threading.Thread(target=speak, args=(classes[prediction],))
+    #     t.start()
 
     cv2.putText(img,str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
     cv2.putText(img,f'{classes[prediction]} {round(probabilities[0][prediction]*100,2)}% confidence', (cx-50,cy-50), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
